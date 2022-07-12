@@ -1,5 +1,6 @@
 package tw.com.mathison.test20220704_1
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,8 @@ import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import tw.com.mathison.test20220704_1.databinding.ActivityMainBinding
 
@@ -30,6 +33,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //    )
 
 //    private var currentIndex = 0
+
+    private val cheatLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()){ result ->
+        if(result.resultCode == Activity.RESULT_OK){
+            Log.d(TAG, "RESULT OK!!!")
+            Toast.makeText(this, "OK!!!!", Toast.LENGTH_LONG).show()
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,8 +87,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //            val intent = Intent(this, CheatActivity::class.java)
 //            intent.putExtra("123", quizAnswer)
             val intent = CheatActivity.newIntent(this@MainActivity, quizAnswer)
-            startActivity(intent)
-
+//            startActivity(intent)
+            cheatLauncher.launch(intent)
         }
 
 

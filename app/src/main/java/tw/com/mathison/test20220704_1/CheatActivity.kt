@@ -1,10 +1,12 @@
 package tw.com.mathison.test20220704_1
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import tw.com.mathison.test20220704_1.databinding.ActivityCheatBinding
 
 private const val TAG = "CheatActivity"
@@ -22,6 +24,7 @@ class CheatActivity : AppCompatActivity() {
         Log.d(TAG, "CHEAT!!!")
 
         val ansIsTrue = intent.getBooleanExtra(EXTRA_ANSWER, false)
+        var isCheat: Boolean = false
 
         binding.cheatButton.setOnClickListener {
             val answerText = when{
@@ -29,7 +32,16 @@ class CheatActivity : AppCompatActivity() {
                 else -> R.string.button_false
             }
             binding.answerTextView.setText(answerText)
+            isCheat = true
+            setAnswerShownResult(isCheat)
         }
+    }
+
+    fun setAnswerShownResult(isCheat: Boolean){
+        val data = Intent().apply {
+            putExtra(EXTRA_ANSWER, isCheat)
+        }
+        setResult(Activity.RESULT_OK, data)
     }
 
     companion object{
